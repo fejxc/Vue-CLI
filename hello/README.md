@@ -1,3 +1,5 @@
+[笔记](https://fejxc.gitee.io/blog/2020/10/27/vue-cli-jiao-shou-jia/)
+
 # hello
 
 > A Vue.js project
