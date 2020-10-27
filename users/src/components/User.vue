@@ -32,14 +32,14 @@
         },
         methods: {
             findAll() {
-                this.$http.get("http://rap2api.taobao.org/app/mock/269320/findAll?page=1&rows=4").then((respose) => {
+                this.$http.get("http://localhost:8989/vue/user/findAll?page=1&rows=4").then((respose) => {
                     console.log(respose.data);
                     this.users = respose.data.results;
                 });
             },
             delRow(id){
                 console.log(id);
-                this.$http.get("http://rap2api.taobao.org/app/mock/269320/user/delete?id="+id).then(res=>{
+                this.$http.get("http://localhost:8989/vue/user/delete?id="+id).then(res=>{
                     console.log(res);
                     if(res.data.success){
                         alert("确定查询所有吗？");

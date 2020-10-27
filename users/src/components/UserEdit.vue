@@ -22,14 +22,15 @@
         },
         methods:{
             findOne(){
-                this.$http.get("http://rap2api.taobao.org/app/mock/269320/user/findOne?id="+this.$route.query.id).then(res=>{
+                this.$http.get("http://localhost:8989/vue/user/findOne?id="+this.$route.query.id).then(res=>{
                     console.log(res);
                     console.log(res.data);
                     this.user = res.data;
+
                 });
             },
             editUSerInfo(){
-                this.$http.post("http://rap2api.taobao.org/app/mock/269320/user/update",this.user).then(res=>{
+                this.$http.post("http://localhost:8989/vue/user/update",this.user).then(res=>{
                     console.log(res);
                     if(res.data.success){
                         this.$router.push("/user");
