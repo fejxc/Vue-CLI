@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h1>学生管理</h1>
+      <h3>学生管理</h3>
     </div>
 </template>
 

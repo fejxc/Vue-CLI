@@ -1,7 +1,8 @@
 <template>
   <div>
-    <h1>用户列表</h1>
-    <table border="1" cellpadding="10" cellspacing="2">
+    <h3>用户列表</h3>
+    <a href="#/user/userAdd" class="btn btn-info">添加用户</a>
+    <table class="table table-striped table-bordered" style="margin-top: 30px;">
       <tr>
         <th>学号</th>
         <th>姓名</th>
@@ -17,7 +18,7 @@
         <td><a href="javascript:;" @click="delRow(user.id)">删除</a> <a :href="'#/user/userEdit?id='+user.id">修改</a></td>
       </tr>
     </table>
-    <a href="#/user/userAdd">添加</a>
+
     <router-view></router-view>
   </div>
 </template>

@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1>欢迎进入主页</h1>
+    <div class="jumbotron">
+      <h1>欢迎访问管理系统</h1>
+    </div>
   </div>
 </template>
 
