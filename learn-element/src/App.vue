@@ -1,7 +1,18 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <a href="#/button">你按钮我</a>
+    <a href="#/buttondetail">按钮的使用说明</a>
+    <a href="#/link">文字链接使用</a>
+    <a href="#/layout">布局组件</a>
+    <a href="#/container">容器布局的使用</a>
+    <a href="#/container_demo">containera-demo</a>
+    <a href="#/radio">单选按钮</a>
+    <a href="#/form">Form-input表单</a>
+    <a href="#/select">选择列表</a>
+    <a href="#/switch">Switch的使用</a>
+    <a href="#/datepicker">datepicker的使用</a>
+    <a href="#/forms">Form表单</a>
+      <router-view/>
   </div>
 </template>
 
@@ -13,11 +24,6 @@ export default {
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+
 }
 </style>
