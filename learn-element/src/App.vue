@@ -12,6 +12,9 @@
     <a href="#/switch">Switch的使用</a>
     <a href="#/datepicker">datepicker的使用</a>
     <a href="#/forms">Form表单</a>
+    <a href="#/message">Alert表单</a>
+    <a href="#/tables">Table组件</a>
+
       <router-view/>
   </div>
 </template>

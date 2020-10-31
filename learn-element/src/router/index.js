@@ -12,6 +12,8 @@ import Select from "../components/Select";
 import Switch from "../components/Switchs";
 import DatePickers from "../components/DatePickers";
 import Forms from "../components/Forms";
+import Meaasge from "../components/Meaasge";
+import Tables from "../components/Tables";
 Vue.use(Router)
 
 export default new Router({
@@ -28,5 +30,7 @@ export default new Router({
     {path:'/switch',component:Switch},
     {path:'/datepicker',component:DatePickers},
     {path:'/forms',component:Forms},
+    {path:'/message',component:Meaasge},
+    {path:'/tables',component:Tables},
   ]
 })
