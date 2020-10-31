@@ -22,7 +22,7 @@ export default {
   name: 'App',
     data() {
         return {
-            activeIndex: '/index',
+            activeIndex: this.$route.path, //使用路由获取路径
         };
     },
     methods: {
