@@ -84,7 +84,7 @@
 
         </el-col>
         <el-col :span="1">
-          <!--      添加按钮 date-picker中 要添加 value-format="yyyy-MM-dd" 否则日期少一天-->
+          <!--      添加按钮 date-picker中 要添加 value-format="yyyy-MM-dd" 因为加了校验要把type="date"删了否则日期少一天-->
           <el-button type="success" size="mini" style="margin:10px 0px;" @click="saveUserInfo">添加</el-button>
         </el-col>
         <el-col :span="9">
@@ -99,9 +99,9 @@
                 </el-form-item>
                 <el-form-item label="生日" prop="bir">
                   <el-date-picker
-                    value-format="yyyy-MM-dd"
                     v-model="form.bir"
-                    type="date"
+                    value-format="yyyy-MM-dd"
+                  type="date"
                     placeholder="选择日期">
                   </el-date-picker>
                 </el-form-item>
@@ -201,7 +201,7 @@
                         { min: 1, max: 5, message: '长度在 1 到 5 ', trigger: 'blur' }
                     ],
                     bir: [
-                        { type: 'date', required: true, message: '请选择生日', trigger: 'blur' }
+                        {  required: true, message: '请选择生日', trigger: 'blur' }
                     ],
                     sex: [
                         {  required: true, message: '请性别', trigger: 'change' }
