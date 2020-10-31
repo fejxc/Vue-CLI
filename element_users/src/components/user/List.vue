@@ -64,24 +64,24 @@
       <el-button type="success" size="mini" style="margin:10px 0px;" @click="saveUserInfo">添加</el-button>
       <transition name="el-zoom-in-center">
         <div v-show="show" class="transition-box">
-          <el-form ref="form" :model="form" label-width="80px" label-suffix=":">
-            <el-form-item label="编号">
+          <el-form :hide-required-asterisk="false" :rules="rules" ref="userForm" :model="form" label-width="80px" label-suffix=":">
+            <el-form-item label="编号" prop="id">
               <el-input v-model="form.id"></el-input>
             </el-form-item>
-            <el-form-item label="姓名">
+            <el-form-item label="姓名" prop="name">
               <el-input v-model="form.name"></el-input>
             </el-form-item>
-            <el-form-item label="生日">
+            <el-form-item label="生日" prop="bir">
               <el-date-picker
                 v-model="form.bir"
                 type="date"
                 placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
-            <el-form-item label="地址">
+            <el-form-item label="地址" prop="address">
               <el-input v-model="form.address" type="textarea"></el-input>
             </el-form-item>
-            <el-form-item label="性别">
+            <el-form-item label="性别" prop="sex">
               <el-radio-group v-model="form.sex">
                 <el-radio label="男"></el-radio>
                 <el-radio label="女"></el-radio>
@@ -89,7 +89,7 @@
             </el-form-item>
 
             <el-form-item>
-              <el-button type="primary" @click="onSubmit">保存</el-button>
+              <el-button type="primary" @click="onSubmit('userForm')">保存</el-button>
               <el-button @click="saveUserInfo">重置</el-button>
             </el-form-item>
           </el-form>
@@ -114,7 +114,7 @@
                 placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
-            <el-form-item label="地址">
+            <el-form-item label="地址" >
               <el-input v-model="formEdit.address" type="textarea"></el-input>
             </el-form-item>
             <el-form-item label="性别">
@@ -156,6 +156,26 @@
                     address: '',
                     sex:'男',
                 },
+                rules: {
+                    name: [
+                        { required: true, message: '请输入活动名称', trigger: 'blur' },
+                        { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                    ],
+                    id: [
+                        { required: true, message: '输入id', trigger: 'blur' },
+                        { min: 1, max: 5, message: '长度在 1 到 5 ', trigger: 'blur' }
+                    ],
+                    bir: [
+                        { type: 'date', required: true, message: '请选择生日', trigger: 'blur' }
+                    ],
+                    sex: [
+                        {  required: true, message: '请性别', trigger: 'change' }
+                    ],
+                    address: [
+                        {  required: true, message: '请输入地址', trigger: 'blur' }
+                    ],
+
+                },
             }
         },
         methods: {
@@ -182,7 +202,7 @@
                 })
             },
             saveUserInfo(){ //点击添加信息的处理
-                this.show=true;
+                this.show=!this.show;
                 this.form={sex:'男'}; //清空信息
             },
             updateUserInfo(){
@@ -223,27 +243,35 @@
                     this.tableData = res.data;
                 })
             },
-            onSubmit() {
-                //发送axois
-                this.$http.post("http://localhost:8989/user/save",this.form).then(res=>{
-                    console.log(res.data);
-                    if(res.data.status){
-                        this.$message({
-                            message: '恭喜你'+res.data.msg,
-                            type: 'success'
-                        });
-                        //清空表单信息
-                        this.form={sex:"男"},
-                            //隐藏表单
-                        this.show=false;
-                        //刷新列表
-                        this.findAllTableData();
+            onSubmit(userForm) {
+                    this.$refs[userForm].validate((valid) => {
+                        if (valid) {
+                            //发送axois
+                            this.$http.post("http://localhost:8989/user/save",this.form).then(res=>{
+                                console.log(res.data);
+                                if(res.data.status){
+                                    this.$message({
+                                        message: '恭喜你'+res.data.msg,
+                                        type: 'success'
+                                    });
+                                    //清空表单信息
+                                    this.form={sex:"男"},
+                                        //隐藏表单
+                                        this.show=false;
+                                    //刷新列表
+                                    this.findAllTableData();
 
-                    }else {
-                        this.$message.error(res.data.msg);
-                    }
-                })
-            },
+                                }else {
+                                    this.$message.error(res.data.msg);
+                                }
+                            })
+                        } else {
+                            this.$message.error("数据不符合要求");
+                            return false;
+                        }
+                    });
+
+        },
         },
         created() {
             this.findAllTableData();
