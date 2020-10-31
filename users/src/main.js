@@ -17,3 +17,6 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+
+//npm install axios --save
