@@ -3,7 +3,7 @@
       <el-row>
         <el-col :span="13">
           <el-table
-            :height="300"
+
             stripe
             :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
             >
@@ -11,7 +11,6 @@
               label="编号"
               width="80">
               <template slot-scope="scope">
-                <i class="el-icon-user-solid"></i>
                 <span style="margin-left: 10px">{{ scope.row.id }}</span>
               </template>
             </el-table-column>
@@ -29,7 +28,7 @@
               </template>
             </el-table-column>
             <el-table-column label="生日" prop="bir" width="120"></el-table-column>
-            <el-table-column label="地址" prop="address" width="200"></el-table-column>
+            <el-table-column  label="地址" prop="address" width="200"></el-table-column>
             <el-table-column label="性别" prop="sex" width="50"></el-table-column>
             <el-table-column align="rigth" width="180">
               <template slot="header" slot-scope="scope">
@@ -63,9 +62,29 @@
               </template>
             </el-table-column>
           </el-table>
+        <!--  分页组件-->
+          <el-row>
+            <el-col :span="13" :offset="4">
+              <el-pagination
+                @current-change="findPage"
+                @size-change="findSize"
+                small
+                background
+                prev-text="上一页"
+                next-text="下一页"
+                style="margin: 15px 0px"
+                layout="prev, pager, next,jumper,total,sizes"
+                :page-size="size"
+                :current-page="pageNow"
+                :page-sizes="[2,4,6,8,10]"
+                :total="totals">
+              </el-pagination>
+            </el-col>
+          </el-row>
+
         </el-col>
         <el-col :span="1">
-          <!--      添加按钮-->
+          <!--      添加按钮 date-picker中 要添加 value-format="yyyy-MM-dd" 否则日期少一天-->
           <el-button type="success" size="mini" style="margin:10px 0px;" @click="saveUserInfo">添加</el-button>
         </el-col>
         <el-col :span="9">
@@ -73,13 +92,14 @@
             <div v-show="show" class="transition-box">
               <el-form :hide-required-asterisk="false" :rules="rules" ref="userForm" :model="form" label-width="80px" label-suffix=":">
                 <el-form-item label="编号" prop="id">
-                  <el-input v-model="form.id"></el-input>
+                  <el-input prefix-icon="el-icon-star-on" v-model="form.id"></el-input>
                 </el-form-item>
                 <el-form-item label="姓名" prop="name">
-                  <el-input v-model="form.name"></el-input>
+                  <el-input prefix-icon="el-icon-user-solid" v-model="form.name"></el-input>
                 </el-form-item>
                 <el-form-item label="生日" prop="bir">
                   <el-date-picker
+                    value-format="yyyy-MM-dd"
                     v-model="form.bir"
                     type="date"
                     placeholder="选择日期">
@@ -118,6 +138,7 @@
                 </el-form-item>
                 <el-form-item label="生日">
                   <el-date-picker
+                    value-format="yyyy-MM-dd"
                     v-model="formEdit.bir"
                     type="date"
                     placeholder="选择日期">
@@ -167,10 +188,13 @@
                     address: '',
                     sex:'男',
                 },
+                totals:0,
+                size:4,
+                pageNow:1,
                 rules: {
                     name: [
                         { required: true, message: '请输入活动名称', trigger: 'blur' },
-                        { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                        { min: 1, max: 5, message: '长度在 1 到 5 个字符', trigger: 'blur' }
                     ],
                     id: [
                         { required: true, message: '输入id', trigger: 'blur' },
@@ -190,7 +214,16 @@
             }
         },
         methods: {
-
+            findPage(page){//处理分页
+                console.log(page);
+                this.page= page;
+                this.findAllTableData(page,this.size)
+            },
+            findSize(size){  //处理每页显示记录发生变化的方法
+                console.log(size);
+                this.size=size;
+                this.findAllTableData(this.page,size);
+            },
             onUpdate(){ //更新信息
                 //发送axois
                 this.$http.post("http://localhost:8989/user/update",this.formEdit).then(res=>{
@@ -249,9 +282,14 @@
                 })
 
             },
-            findAllTableData(){
-                this.$http.get("http://localhost:8989/user/findAll").then(res=>{
-                    this.tableData = res.data;
+            findAllTableData(page,size){
+                page = page?page:this.pageNow;
+                size = size?size:this.size;
+                this.$http.get("http://localhost:8989/user/findByPage?pageNow="+page+"&pageSize="+size).then(res=>{
+                    //http://localhost:8989/user/findByPage 对应  this.tableData = res.data;
+                    this.tableData = res.data.users;
+                    console.log(res.data);
+                    this.totals=res.data.totals;
                 })
             },
             onSubmit(userForm) {
