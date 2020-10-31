@@ -8,6 +8,9 @@
           <el-menu-item index="/users">用户管理</el-menu-item>
           <el-menu-item index="/msg">消息中心</el-menu-item>
           <el-menu-item index="/order">订单管理</el-menu-item>
+
+          <el-menu-item index="/register" style="float: right">注册</el-menu-item>
+          <el-menu-item index="/login" style="float: right">登陆</el-menu-item>
         </el-menu>
       </el-header>
       <el-main>
