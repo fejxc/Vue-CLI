@@ -32,5 +32,6 @@ export default new Router({
     {path:'/forms',component:Forms},
     {path:'/message',component:Meaasge},
     {path:'/tables',component:Tables},
+
   ]
 })

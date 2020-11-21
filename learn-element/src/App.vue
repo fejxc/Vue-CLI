@@ -15,6 +15,7 @@
     <a href="#/message">Alert表单</a>
     <a href="#/tables">Table组件</a>
 
+
       <router-view/>
   </div>
 </template>

@@ -3,7 +3,6 @@
       <el-row>
         <el-col :span="13">
           <el-table
-
             stripe
             :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
             >
