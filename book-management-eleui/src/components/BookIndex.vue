@@ -62,8 +62,27 @@
                 placeholder="输入书名的关键字搜索"/>
             </template>
           </el-table-column>
+          <!--  分页组件-->
+
+
         </el-table>
       </el-main>
+<!--分页处理-->
+      <el-pagination
+        @current-change="findPage"
+        @size-change="findSize"
+        small
+        background
+        prev-text="上一页"
+        next-text="下一页"
+        style="margin: 15px 0px"
+        layout="prev, pager, next,jumper,total,sizes"
+        :page-size="size"
+        :current-page="pageNow"
+        :page-sizes="[2,4,6,8,10]"
+        :total="totals">
+      </el-pagination>
+      <!--分页处理-->
     </el-container>
   </el-container>
 </template>
@@ -75,9 +94,22 @@
             return {
                 tableData:[],
                 search:'',
+                totals:0,
+                size:6,
+                pageNow:1,
             }
         },
         methods:{
+            findPage(page){//处理分页
+                console.log(page);
+                this.page= page;
+                this.findAll(page,this.size)
+            },
+            findSize(size){  //处理每页显示记录发生变化的方法
+                console.log(size);
+                this.size=size;
+                this.findAll(this.page,size);
+            },
             //根据id删除图书
             delBookInfo(index,row){
                 this.$http.get("http://localhost:8989/book/delete?id="+row.id).then(res=>{
@@ -87,12 +119,17 @@
                 })
             },
             //查找所有
-            findAll(){
-                this.$http.get("http://localhost:8989/book/findAll").then(res=>{
-                    console.log(res);
-                    this.tableData=res.data;
+            findAll(page,size){
+                page = page?page:this.pageNow;
+                size = size?size:this.size;
+                this.$http.get("http://localhost:8989/book/findByPage?pageNow="+page+"&pageSize="+size).then(res=>{
+                    console.log(res.data);
+                    this.tableData=res.data.books;
+                    this.totals=res.data.totals;
                 })
             },
+
+
             //添加图书
             addBookInfo(){
 
@@ -100,7 +137,6 @@
             },
             //更新图书
             updateBookInfo(index,row){
-                //this.updateForm=row;
                 console.log(row.id);
                 this.$router.push({name:'update',params:{id:row.id,name:row.name,author:row.author}});
             }
