@@ -52,7 +52,10 @@
                 // 计算body可用高度
                 let cHeight = window.outerHeight - (window.outerHeight - window.innerHeight)
                 // 计算背景图
-                let imgs = ["http://bookstore.zealon.cn/0-1.jpg","http://bookstore.zealon.cn/0-2.jpg","http://bookstore.zealon.cn/0-6.png"]
+                // let imgs = ["http://bookstore.zealon.cn/0-1.jpg","http://bookstore.zealon.cn/0-2.jpg","http://bookstore.zealon.cn/0-6.png"]
+                let imgs = ["https://i.loli.net/2020/11/21/EnHYC3MjkKSzypQ.png",
+                    "https://i.loli.net/2020/11/21/EnHYC3MjkKSzypQ.png",
+                    "https://i.loli.net/2020/11/21/EnHYC3MjkKSzypQ.png"]
                 let imgName = imgs[Math.floor(Math.random() * 3)]
                 let style = "background-image:url('" + imgName + "'); background-repeat: round; height:" + cHeight + "px;";
                 return style
@@ -60,7 +63,7 @@
         },
         created(){
             this.db.save("LOGINFLAG","0")
-            document.title = "微图书"
+            document.title = "微井大图书管理"
         },
         methods:{
             submitForm(loginForm) {
@@ -92,7 +95,7 @@
 
     .login{
         width:100%;
-        
+
     }
 
     .loginContainer {

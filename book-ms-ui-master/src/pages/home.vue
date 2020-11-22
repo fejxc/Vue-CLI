@@ -204,7 +204,7 @@
 <style>
     body {margin: 0px}
 
-    .el-main{ width: 100}
+    .el-main{ }
 
     .homeRouterView {
         margin-top: 0px; width:100%; 

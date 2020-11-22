@@ -112,10 +112,23 @@
             },
             //根据id删除图书
             delBookInfo(index,row){
-                this.$http.get("http://localhost:8989/book/delete?id="+row.id).then(res=>{
-                    this.findAll();
-                    console.log(row.id);
-                    console.log(res);
+
+                console.log(index, row);
+                this.$confirm('删除该图书, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                }).then(()=>{
+                    this.$http.get("http://localhost:8989/book/delete?id="+row.id).then(res=>{
+                        console.log(res);
+                        console.log(res.status);
+                        if(res.status==200){
+                            alert("删除成功");
+                            this.findAll();//刷新数据库
+                        }else {
+                            alert("删除失败！");
+                        }
+
+                    })
                 })
             },
             //查找所有
