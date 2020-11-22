@@ -6,9 +6,7 @@
           <template slot="title"><i class="el-icon-message"></i>后台管理</template>
           <el-menu-item-group>
             <template slot="title">图书管理</template>
-            <el-menu-item index="1-1">添加</el-menu-item>
-            <el-menu-item index="1-2">修改</el-menu-item>
-            <el-menu-item index="1-2">删除</el-menu-item>
+            <el-menu-item index="1-1" @click="addBookInfo()">添加</el-menu-item>
           </el-menu-item-group>
           </el-submenu>
       </el-menu>
@@ -28,17 +26,17 @@
       </el-header>
 
       <el-main>
-        <el-table :data="tableData" slot-scope="scope">
+        <el-table :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))" slot-scope="scope">
           <el-table-column
             label="id"
-            width="80">
+            width="140">
             <template slot-scope="scope">
               <span style="margin-left: 10px">{{ scope.row.id }}</span>
             </template>
           </el-table-column>
           <el-table-column
             label="书名"
-            width="120">
+            width="140">
             <template slot-scope="scope">
               <span style="margin-left: 10px">{{ scope.row.name}}</span>
             </template>
@@ -50,14 +48,20 @@
               <span style="margin-left: 10px">{{ scope.row.author}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="action" label="操作">
+          <el-table-column prop="action" label="操作" width="160">
             <template slot-scope="scope">
               <el-button size="mini" @click="delBookInfo(scope.$data,scope.row)">删除</el-button>
-              <el-button size="mini">修改</el-button>
+              <el-button size="mini" @click="updateBookInfo(scope.$data,scope.row)">修改</el-button>
             </template>
-
           </el-table-column>
-
+          <el-table-column width="200">
+            <template slot="header" slot-scope="scope">
+              <el-input
+                v-model="search"
+                size=""
+                placeholder="输入书名的关键字搜索"/>
+            </template>
+          </el-table-column>
         </el-table>
       </el-main>
     </el-container>
@@ -70,9 +74,11 @@
         data() {
             return {
                 tableData:[],
+                search:'',
             }
         },
         methods:{
+            //根据id删除图书
             delBookInfo(index,row){
                 this.$http.get("http://localhost:8989/book/delete?id="+row.id).then(res=>{
                     this.findAll();
@@ -80,12 +86,24 @@
                     console.log(res);
                 })
             },
+            //查找所有
             findAll(){
                 this.$http.get("http://localhost:8989/book/findAll").then(res=>{
                     console.log(res);
                     this.tableData=res.data;
                 })
             },
+            //添加图书
+            addBookInfo(){
+
+                this.$router.push("/add");
+            },
+            //更新图书
+            updateBookInfo(index,row){
+                //this.updateForm=row;
+                console.log(row.id);
+                this.$router.push({name:'update',params:{id:row.id,name:row.name,author:row.author}});
+            }
         },
         created() {
            this.findAll();
